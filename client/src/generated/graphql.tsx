@@ -74,6 +74,45 @@ export type CreateUserMutation = (
   )> }
 );
 
+export type DeleteUserMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteUserMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteUser?: Maybe<(
+    { __typename?: 'Message' }
+    & Pick<Message, 'message'>
+  )> }
+);
+
+export type UpdatePasswordMutationVariables = Exact<{
+  username: Scalars['String'];
+  oldPassword: Scalars['String'];
+  newPassword: Scalars['String'];
+}>;
+
+
+export type UpdatePasswordMutation = (
+  { __typename?: 'Mutation' }
+  & { updatePassword?: Maybe<(
+    { __typename?: 'Message' }
+    & Pick<Message, 'message'>
+  )> }
+);
+
+export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllUsersQuery = (
+  { __typename?: 'RootQuery' }
+  & { getAllUsers?: Maybe<Array<Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'name' | 'username'>
+  )>>> }
+);
+
 
 export const CreateUserDocument = gql`
     mutation createUser($name: String!, $username: String!, $password: String!) {
@@ -87,4 +126,43 @@ export const CreateUserDocument = gql`
 
 export function useCreateUserMutation() {
   return Urql.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument);
+};
+export const DeleteUserDocument = gql`
+    mutation deleteUser($id: ID!) {
+  deleteUser(id: $id) {
+    message
+  }
+}
+    `;
+
+export function useDeleteUserMutation() {
+  return Urql.useMutation<DeleteUserMutation, DeleteUserMutationVariables>(DeleteUserDocument);
+};
+export const UpdatePasswordDocument = gql`
+    mutation updatePassword($username: String!, $oldPassword: String!, $newPassword: String!) {
+  updatePassword(
+    username: $username
+    oldPassword: $oldPassword
+    newPassword: $newPassword
+  ) {
+    message
+  }
+}
+    `;
+
+export function useUpdatePasswordMutation() {
+  return Urql.useMutation<UpdatePasswordMutation, UpdatePasswordMutationVariables>(UpdatePasswordDocument);
+};
+export const GetAllUsersDocument = gql`
+    query getAllUsers {
+  getAllUsers {
+    id
+    name
+    username
+  }
+}
+    `;
+
+export function useGetAllUsersQuery(options: Omit<Urql.UseQueryArgs<GetAllUsersQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetAllUsersQuery>({ query: GetAllUsersDocument, ...options });
 };
