@@ -20,13 +20,13 @@ const main = async () => {
     app.use(express.json())
     app.use("/graphql", graphqlHTTP({
         schema,
-        graphiql: true
+        graphiql: true,
     }))
 
     
 
-    app.listen(3001, () => {
-        console.log("server is running on port 3001");
+    app.listen(5000, () => {
+        console.log("server is running on port 5000");
     })
 }
 

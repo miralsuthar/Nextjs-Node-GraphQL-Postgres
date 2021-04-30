@@ -11,6 +11,7 @@ export const CREATE_USER = {
         password: {type: GraphQLString}
     },
     async resolve(parent: any, args: any){
+        console.log('create function is runnning')
         const {name, username, password} = args;
         await Users.insert({name, username, password});
         return args
